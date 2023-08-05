@@ -1,12 +1,22 @@
+"use client"
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './ImageSlider.module.css';
 import Image from 'next/image'
 
-const ImageSlider = ({ banners: {} }) => {
-  const [currentCard, setCurrentCard] = useState(0);
-  const sliderRef = useRef(null);
-  const touchStartRef = useRef(0);
-  const touchEndRef = useRef(0);
+interface Banner {
+  name: string;
+  photo: string;
+}
+
+interface ImageSliderProps {
+  banners: Banner[];
+}
+
+const ImageSlider: React.FC<ImageSliderProps>  = ({ banners }) => {
+  const [currentCard, setCurrentCard] = useState<number>(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const touchStartRef = useRef<number>(0);
+  const touchEndRef = useRef<number>(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,11 +36,11 @@ const ImageSlider = ({ banners: {} }) => {
     setCurrentCard((prevCard) => (prevCard === banners.length - 1 ? 0 : prevCard + 1));
   };
 
-  const handleTouchStart = (event) => {
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartRef.current = event.touches[0].clientX;
   };
 
-  const handleTouchMove = (event) => {
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
     touchEndRef.current = event.touches[0].clientX;
   
     if (sliderRef.current) {
@@ -64,7 +74,7 @@ const ImageSlider = ({ banners: {} }) => {
       <div className={styles['banner-slider']} ref={sliderRef}>
       {banners.map((banner, index) => (
           <div key={index} className={styles['banner-image']}>
-            <Image src={banner.photo.cover} alt={banner.name} style={{ borderRadius: '2%' }} />
+           <Image src={banner.photo} alt={banner.name} className={styles['responsive-image']} height='1080' width='1080'/>
           </div>
         ))}
       </div>

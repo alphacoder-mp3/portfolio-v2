@@ -30,4 +30,12 @@
   .active {
     background-color: #007bff;
   }
+
+  .responsive-image {
+    width: 100%;
+    height: 500px;
+    /* max-height: 100vh; */
+    max-width: 100vw; /* Adjust the max-width as per your requirements */
+  }
+  
   
